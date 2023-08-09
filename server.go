@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"log"
 	"math/rand"
 	"net/http"
@@ -57,6 +58,10 @@ func handlePairs(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	port := flag.String("port", "8090", "port to listen on")
+	flag.Parse()
+
 	http.HandleFunc("/pairs", handlePairs)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Printf("Server started on port %s\n", *port)
+	log.Fatal(http.ListenAndServe(":"+*port, nil))
 }
